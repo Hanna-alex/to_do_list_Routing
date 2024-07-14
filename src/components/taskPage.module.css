@@ -1,0 +1,66 @@
+.container {
+	width: 820px;
+	margin: auto;
+	padding: 16px 0;
+}
+
+.buttunBack {
+	padding: 8px 12px;
+	width: 120px;
+	background: #000;
+	outline: none;
+	border: 1px solid var(--color-3);
+	border-radius: 8px;
+	color: var(--color-3);
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+.buttunBack:hover {
+	border: 1px solid var(--color-1);
+	color: var(--color-1);
+}
+
+.task {
+	padding: 32px 0;
+}
+
+.title {
+	margin-bottom: 8px;
+	text-align: center;
+}
+
+.description {
+	margin-bottom: 32px;
+	padding: 8px 0;
+	min-height: 25vh;
+}
+
+.buttonChange {
+	padding: 8px 12px;
+	background: #000;
+	outline: none;
+	border: 1px solid #161616;
+	border-radius: 8px;
+	color: var(--color-1);
+	transition: all 0.3s ease;
+	margin-right: 8px;
+	cursor: pointer;
+}
+
+.buttonDelete {
+	padding: 8px 12px;
+	background: #000;
+	border: 1px solid #161616;
+	outline: none;
+	border-radius: 8px;
+	color: var(--color-5);
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.buttonChange:hover {
+	border: 1px solid var(--color-1);
+}
+.buttonDelete:hover {
+	border: 1px solid var(--color-5);
+}

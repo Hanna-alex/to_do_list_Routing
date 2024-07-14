@@ -1,38 +1,47 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styles from './modal.module.css'
-import { Button } from './Button'
+import React from 'react';
+import PropTypes from 'prop-types';
+import styles from './modal.module.css';
+import { Button } from './elems/Button';
 
-
-export const Modal = ({ value, setValue, saveTaskFn, editingTaskId, cancelFn })=>{
-
+export const Modal = ({
+	title,
+	setTitle,
+	saveTask,
+	cancelEdit,
+	description,
+	setDescription,
+}) => {
 	return (
 		<div className={styles.modal}>
 			<form className={styles.changeFormTask}>
 				<h2 className={styles.changeFormTaskTitle}>Изменить задачу:</h2>
+
 				<input
-					type="text"
-					value={value}
+					type='text'
+					value={title}
 					className={styles.changeInput}
-					onChange={(e) => setValue(e.target.value)}
+					onChange={(e) => setTitle(e.target.value)}
 				/>
-				<Button btnFn={() => saveTaskFn(editingTaskId)} classbtn={styles.changeFormButton}>
+				<textarea
+					value={description}
+					className={styles.changeDescription}
+					onChange={(e) => setDescription(e.target.value)}
+				/>
+				<Button btnFn={() => saveTask()} classbtn={styles.changeFormButton}>
 					Сохранить
 				</Button>
-
-				<Button btnFn={cancelFn} classbtn={styles.changeFormButton}>Отмена</Button>
+				<Button btnFn={cancelEdit} classbtn={styles.changeFormButton}>
+					Отмена
+				</Button>
 			</form>
-				</div>
-
-	)
-
-}
+		</div>
+	);
+};
 
 Modal.propTypes = {
-value: PropTypes.string,
-setValue: PropTypes.func,
-saveTaskFn: PropTypes.func,
-editingTaskId: PropTypes.number,
-cancelFn: PropTypes.func
-}
-
+	value: PropTypes.string,
+	setValue: PropTypes.func,
+	saveTaskFn: PropTypes.func,
+	editingTaskId: PropTypes.number,
+	cancelFn: PropTypes.func,
+};
