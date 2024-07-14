@@ -15,11 +15,13 @@ const truncateText = (text, maxLength = 30) => {
 
 const TodoList = () => {
 	const [tasks, setTasks] = useState([]);
-	const [newTask, setNewTask] = useState('');
+	const [newTitle, setNewTitle] = useState('');
+	const [newDescription, setNewDescription] = useState('');
 	const [searchTerm, setSearchTerm] = useState('');
 	const [isSortOn, setIsSortOn] = useState(false);
 	const [isAnyLoading, setIsAnyLoading] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+	const [updating, setUpdating] = useState(false);
 
 	useEffect(() => {
 		setIsAnyLoading(true);
@@ -32,13 +34,14 @@ const TodoList = () => {
 
 	const addTask = (e) => {
 		e.preventDefault();
-		setNewTask(newTask.trim());
+		setNewTitle(newTitle.trim());
+		setNewDescription(newDescription.trim());
 
 		setIsAnyLoading(true);
-		if (!newTask) {
-			setErrorMessage('Введите задачу');
+		if (!newTitle) {
+			setErrorMessage('Введите заголовок задачи');
 			setIsAnyLoading(false);
-		} else if (tasks.some((existingTask) => existingTask.title === newTask)) {
+		} else if (tasks.some((existingTask) => existingTask.title === newTitle)) {
 			setErrorMessage('Такая задача уже существует');
 			setIsAnyLoading(false);
 		} else {
@@ -48,8 +51,8 @@ const TodoList = () => {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					title: newTask,
-					description: '',
+					title: newTitle,
+					description: newDescription,
 					completed: false,
 				}),
 			})
@@ -57,8 +60,10 @@ const TodoList = () => {
 				.then((data) => setTasks([...tasks, data]))
 				.catch((error) => console.error('Error adding task:', error))
 				.finally(() => setIsAnyLoading(false));
-			setNewTask('');
+			setNewTitle('');
+			setNewDescription('');
 			setErrorMessage('');
+			setUpdating(false);
 		}
 	};
 
@@ -69,29 +74,53 @@ const TodoList = () => {
 		? [...filteredTasks].sort((a, b) => a.title.localeCompare(b.title))
 		: filteredTasks;
 
+	const cancelAddForm = () => {
+		setUpdating(false);
+	};
+
 	return (
 		<div className={styles.container}>
 			{isAnyLoading && <ModalLoader />}
+			<div className={styles.menu}>
+				<Button btnFn={() => setUpdating(true)} classbtn={styles.formButton}>
+					Добавить новую задачу
+				</Button>
 
-			<AddFormTask
-				errorMessage={errorMessage}
-				newTask={newTask}
-				setNewTask={setNewTask}
-				addTask={addTask}
-			/>
-			<SearchTask searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+				<SearchTask searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
-			<Button classbtn={styles.sortButton} btnFn={() => setIsSortOn(!isSortOn)}>
-				{isSortOn ? 'Не сортировать' : 'Сортировать'}
-			</Button>
+				<Button
+					classbtn={styles.sortButton}
+					btnFn={() => setIsSortOn(!isSortOn)}
+				>
+					{isSortOn ? 'Не сортировать' : 'Сортировать'}
+				</Button>
+			</div>
+
+			{updating ? (
+				<AddFormTask
+					errorMessage={errorMessage}
+					newTitle={newTitle}
+					setNewTitle={setNewTitle}
+					newDescription={newDescription}
+					setNewDescription={setNewDescription}
+					addTask={addTask}
+					cancelEdit={cancelAddForm}
+				/>
+			) : (
+				''
+			)}
 			<ul className={styles.todoList}>
-				{sortedTasks.map((task) => (
-					<li key={task.id} className={styles.task}>
-						<Link className={styles.link} to={`/task/${task.id}`}>
-							{truncateText(task.title)}
-						</Link>
-					</li>
-				))}
+				{sortedTasks.length === 0 ? (
+					<span>Список пуст</span>
+				) : (
+					sortedTasks.map((task) => (
+						<li key={task.id} className={styles.task}>
+							<Link className={styles.link} to={`/task/${task.id}`}>
+								{truncateText(task.title)}
+							</Link>
+						</li>
+					))
+				)}
 			</ul>
 		</div>
 	);

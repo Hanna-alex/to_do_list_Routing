@@ -2,25 +2,45 @@ import React from 'react';
 import styles from './addFormTask.module.css';
 import { Button } from './Button';
 
-export const AddFormTask = ({ errorMessage, newTask, setNewTask, addTask }) => {
+export const AddFormTask = ({
+	errorMessage,
+	newTitle,
+	setNewTitle,
+	newDescription,
+	setNewDescription,
+	addTask,
+	cancelAddForm,
+}) => {
 	return (
-		<form className={styles.addFormTask}>
-			{errorMessage ? (
-				<label className={styles.error}>{errorMessage}</label>
-			) : (
-				''
-			)}
-			<input
-				type='text'
-				value={newTask}
-				onChange={(e) => setNewTask(e.target.value)}
-				placeholder='Добавить новую задачу'
-				className={styles.formInput}
-			/>
+		<div className={styles.overlay}>
+			<form className={styles.addFormTask}>
+				<h2 className={styles.title}>Добавить задачу:</h2>
+				<label className={styles.label}>
+					{errorMessage && (
+						<label className={styles.error}>{errorMessage}</label>
+					)}
+					<input
+						type='text'
+						value={newTitle}
+						onChange={(e) => setNewTitle(e.target.value)}
+						placeholder='Напишите заголовок'
+						className={styles.formInput}
+					/>
+				</label>
 
-			<Button btnFn={addTask} classbtn={styles.formButton}>
-				Добавить новую задачу
-			</Button>
-		</form>
+				<textarea
+					value={newDescription}
+					onChange={(e) => setNewDescription(e.target.value)}
+					placeholder='Напишите описание'
+					className={styles.description}
+				/>
+				<Button btnFn={(e) => addTask(e)} classbtn={styles.changeFormButton}>
+					Добавить
+				</Button>
+				<Button btnFn={cancelAddForm} classbtn={styles.changeFormButton}>
+					Отмена
+				</Button>
+			</form>
+		</div>
 	);
 };

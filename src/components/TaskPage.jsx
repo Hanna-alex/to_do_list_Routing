@@ -83,7 +83,9 @@ const TaskPage = () => {
 
 			<div className={styles.task}>
 				<h1 className={styles.title}>{task.title}</h1>
-				<p className={styles.description}>{task.description}</p>
+				<p className={styles.description}>
+					{task.description ? task.description : 'Нет описания задачи'}
+				</p>
 				<Button btnFn={() => setEditing(true)} classbtn={styles.buttonChange}>
 					Редактировать
 				</Button>
