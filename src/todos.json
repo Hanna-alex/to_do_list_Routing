@@ -1,0 +1,34 @@
+{
+  "todos": [
+    {
+      "title": "Купить чемодан для поездки",
+      "completed": false,
+      "id": 1
+    },
+    {
+      "title": "нужно ли купить рюкзак для поездки",
+      "completed": false,
+      "id": 2
+    },
+    {
+      "title": "12",
+      "completed": false,
+      "id": 4
+    },
+    {
+      "title": "1",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "title": "9",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "title": "5",
+      "completed": false,
+      "id": 7
+    }
+  ]
+}
